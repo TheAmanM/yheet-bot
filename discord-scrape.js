@@ -40,8 +40,10 @@ client.on('messageCreate', message => {
             console.log(`Debug mode: ${debugMode}`);
         }
     } else {
-        if (message.guildId === '967270379280294008') {
-            if (message.channelId === '984166000167632946') {
+        // if (message.guildId === '967270379280294008') {
+        if (message.guildId === '433684465676714015') {
+            // if (message.channelId === '984166000167632946') {
+            if (message.channelId === '992342250602369045') {
                 if (!message.author.bot) {
                     if (!debugMode) {
                         main(message);
