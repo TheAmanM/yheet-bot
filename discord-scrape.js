@@ -26,6 +26,7 @@ const sendMessage = async (botMessage, userMessage) => {
 }
 
 client.on('messageCreate', message => {
+    message.channel.sendTyping();
     // const user = message.user.tag;
     if (message.author.id === ownerId && message.content[0] === '*') {
         const command = message.content.substring(1);
@@ -65,11 +66,12 @@ const initialize = async () => {
     // return page;
 }
 
+
 const post = async (message) => {
     // message = prompt('');
     await page.focus('tr > td > input');
-    console.log(`${message.member.user.tag}: ${message.content}`)
     await page.keyboard.type(message.content);
+    console.log(`${message.member.user.tag}: ${message.content}`)
     await page.keyboard.press("Enter");
     // return page;
 }
