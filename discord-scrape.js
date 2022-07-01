@@ -104,4 +104,5 @@ const main = async (userMessage) => {
     // return page;
 }
 
+console.log('Establishing connection to Discord')
 client.login(process.env.YHEETBOT_TOKEN);
