@@ -1,1 +1,1 @@
-Worker: node ./discord-scrape.js
+worker: node ./discord-scrape.js
