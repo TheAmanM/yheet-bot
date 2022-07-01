@@ -26,7 +26,6 @@ const sendMessage = async (botMessage, userMessage) => {
 }
 
 client.on('messageCreate', message => {
-    message.channel.sendTyping();
     // const user = message.user.tag;
     if (message.author.id === ownerId && message.content[0] === '*') {
         const command = message.content.substring(1);
@@ -88,6 +87,7 @@ const parseString = (returnVal) => {
 }
 
 const getRequest = async (userMessage) => {
+    userMessage.channel.sendTyping();
     await page.waitForSelector('b');
     const elementHandle = await page.$('body');
     const jsHandle = await elementHandle.getProperty('innerHTML');
