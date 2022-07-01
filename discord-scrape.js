@@ -54,7 +54,10 @@ client.on('messageCreate', message => {
 });
 
 const initialize = async () => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({'args' : [
+        '--no-sandbox',
+        '--disable-setuid-sandbox'
+      ]});
     page = await browser.newPage();
     await page.goto('https://www.pandorabots.com/pandora/talk?botid=b8d616e35e36e881');
     console.log('Client ready to send requests')
