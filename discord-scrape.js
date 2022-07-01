@@ -4,7 +4,6 @@ const { Client, Intents, Message } = require('discord.js');
 const { debug } = require('request');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
-const clientToken = "REDACTED";
 const ownerId = "816886649333088271";
 let debugMode = false;
 
@@ -105,4 +104,4 @@ const main = async (userMessage) => {
     // return page;
 }
 
-client.login(clientToken);
+client.login(process.env.YHEETBOT_TOKEN);
