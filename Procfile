@@ -1,0 +1,1 @@
+Worker: node discord-scrape.js
