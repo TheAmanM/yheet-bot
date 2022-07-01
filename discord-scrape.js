@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
-const prompt = require('prompt-sync')({ sigint: true });
-const { Client, Intents, Message } = require('discord.js');
-const { debug } = require('request');
+// const prompt = require('prompt-sync')({ sigint: true });
+const { Client, Intents} = require('discord.js');
+// const { debug } = require('request');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 
 const ownerId = "816886649333088271";
