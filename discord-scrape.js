@@ -62,7 +62,7 @@ function sleep(ms) {
 }
 
 const runStatus = async () => {
-    const numMinutes = 15;
+    const numMinutes = 60 * 24;
     while (true) {
         const index = Math.round(Date.now() / (1000 * 60 * numMinutes)) % statusList.length;
         activityName = statusList[index]
@@ -154,5 +154,4 @@ const main = async (userMessage) => {
 }
 
 console.log('Establishing connection to Discord')
-// client.login(process.env.YHEETBOT_TOKEN);
-client.login('REDACTED');
+client.login(process.env.YHEETBOT_TOKEN);
