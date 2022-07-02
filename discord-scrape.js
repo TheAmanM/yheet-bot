@@ -1,8 +1,9 @@
 const puppeteer = require('puppeteer');
-// const prompt = require('prompt-sync')({ sigint: true });
-const { Client, Intents} = require('discord.js');
-// const { debug } = require('request');
+const { Client, Intents } = require('discord.js');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+
+// import statusList from './status.json';
+const statusList = require('./status.json');
 
 const ownerId = "816886649333088271";
 let debugMode = false;
@@ -13,6 +14,7 @@ client.once('ready', () => {
     initialize();
     client.user.setPresence({ status: "online" });
     console.log(`Ready as ${client.user.tag}`);
+    runStatus();
 });
 
 client.on("disconnected", () => {
@@ -55,11 +57,51 @@ client.on('messageCreate', message => {
     }
 });
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+const runStatus = async () => {
+    const numMinutes = 15;
+    while (true) {
+        const index = Math.round(Date.now() / (1000 * 60 * numMinutes)) % statusList.length;
+        activityName = statusList[index]
+        // console.log(Date.now());
+        console.log(`Setting status to: ${index}) ${activityName}`);
+
+        client.user.setActivity(
+            {
+                name: activityName,
+                // type: 0,
+            }
+        );
+        await sleep(1000 * 60 * numMinutes);
+        /* await new Promise(
+            resolve, () => (
+                setTimeout(
+                    () => {
+                        client.user.setPresence(
+                            {
+                                activities: {
+                                    name: activityName
+                                }
+                            }
+                        );
+                    }, 1000 * 60 * 5
+                )
+            )
+        ); */
+    }
+
+}
+
 const initialize = async () => {
-    const browser = await puppeteer.launch({'args' : [
-        '--no-sandbox',
-        '--disable-setuid-sandbox'
-      ]});
+    const browser = await puppeteer.launch({
+        'args': [
+            '--no-sandbox',
+            '--disable-setuid-sandbox'
+        ]
+    });
     page = await browser.newPage();
     await page.goto('https://www.pandorabots.com/pandora/talk?botid=b8d616e35e36e881');
     console.log('Client ready to send requests')
@@ -112,4 +154,5 @@ const main = async (userMessage) => {
 }
 
 console.log('Establishing connection to Discord')
-client.login(process.env.YHEETBOT_TOKEN);
+// client.login(process.env.YHEETBOT_TOKEN);
+client.login('REDACTED');
