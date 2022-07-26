@@ -6,6 +6,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 const statusList = require('./status.json');
 
 const ownerId = "816886649333088271";
+const version = "1.2.0"
 let debugMode = false;
 
 page = null;
@@ -14,6 +15,7 @@ client.once('ready', () => {
     initialize();
     client.user.setPresence({ status: "online" });
     console.log(`Ready as ${client.user.tag}`);
+    console.log(`Version ${version}`);
     runStatus();
 });
 
@@ -62,95 +64,121 @@ function sleep(ms) {
 }
 
 const runStatus = async () => {
-    const numMinutes = 60 * 24;
-    while (true) {
-        const index = Math.round(Date.now() / (1000 * 60 * numMinutes)) % statusList.length;
-        activityName = statusList[index]
-        // console.log(Date.now());
-        console.log(`Setting status to: ${index}) ${activityName}`);
+    try {
+        const numMinutes = 60 * 24;
+        while (true) {
+            const index = Math.round(Date.now() / (1000 * 60 * numMinutes)) % statusList.length;
+            activityName = statusList[index]
+            // console.log(Date.now());
+            console.log(`Setting status to: ${index}) ${activityName}`);
 
-        client.user.setActivity(
-            {
-                name: activityName,
-                // type: 0,
-            }
-        );
-        await sleep(1000 * 60 * numMinutes);
-        /* await new Promise(
-            resolve, () => (
-                setTimeout(
-                    () => {
-                        client.user.setPresence(
-                            {
-                                activities: {
-                                    name: activityName
+            client.user.setActivity(
+                {
+                    name: activityName,
+                    // type: 0,
+                }
+            );
+            await sleep(1000 * 60 * numMinutes);
+            /* await new Promise(
+                resolve, () => (
+                    setTimeout(
+                        () => {
+                            client.user.setPresence(
+                                {
+                                    activities: {
+                                        name: activityName
+                                    }
                                 }
-                            }
-                        );
-                    }, 1000 * 60 * 5
-                )
-            )
-        ); */
+                                );
+                            }, 1000 * 60 * 5
+                            )
+                            )
+                            ); */
+        }
+    } catch (e) {
+        console.log(`Error in runStatus function: ${e}`)
     }
 
 }
 
 const initialize = async () => {
-    const browser = await puppeteer.launch({
-        'args': [
-            '--no-sandbox',
-            '--disable-setuid-sandbox'
-        ]
-    });
-    page = await browser.newPage();
-    await page.goto('https://www.pandorabots.com/pandora/talk?botid=b8d616e35e36e881');
-    console.log('Client ready to send requests')
+    try {
+
+        const browser = await puppeteer.launch({
+            'args': [
+                '--no-sandbox',
+                '--disable-setuid-sandbox'
+            ]
+        });
+        page = await browser.newPage();
+        await page.goto('https://www.pandorabots.com/pandora/talk?botid=b8d616e35e36e881');
+        console.log('Client ready to send requests')
+    } catch (e) {
+        console.log(`Error in initialize function: ${e}`);
+    }
 
     // return page;
 }
 
 
 const post = async (message) => {
-    // message = prompt('');
-    await page.focus('tr > td > input');
-    await page.keyboard.type(message.content);
-    console.log(`${message.member.user.tag}: ${message.content}`)
-    await page.keyboard.press("Enter");
-    // return page;
+    try {
+        // message = prompt('');
+        await page.focus('tr > td > input');
+        await page.keyboard.type(message.content);
+        console.log(`${message.member.user.tag}: ${message.content}`)
+        await page.keyboard.press("Enter");
+        // return page;
+    } catch (e) {
+        console.log(`Error in post function: ${e}`);
+    }
 }
 
 const parseString = (returnVal) => {
-    let currentString = returnVal.substring(returnVal.indexOf('<b>') + 3);
-    currentString = currentString.substring(currentString.indexOf('<b>') + 3);
-    currentString = currentString.substring(14);
+    try {
 
-    currentString = currentString.substring(0, currentString.indexOf('<br>'));
-    currentString = currentString.trim();
+        let currentString = returnVal.substring(returnVal.indexOf('<b>') + 3);
+        currentString = currentString.substring(currentString.indexOf('<b>') + 3);
+        currentString = currentString.substring(14);
 
-    return currentString;
+        currentString = currentString.substring(0, currentString.indexOf('<br>'));
+        currentString = currentString.trim();
+
+        return currentString;
+    } catch (e) {
+        console.log(`Error in parseString function: ${e}`);
+    }
 }
 
 const getRequest = async (userMessage) => {
-    userMessage.channel.sendTyping();
-    await page.waitForSelector('b');
-    const elementHandle = await page.$('body');
-    const jsHandle = await elementHandle.getProperty('innerHTML');
-    const val = parseString(await jsHandle.jsonValue());
-    // console.log(val);
-    sendMessage(val, userMessage);
+    try {
+        userMessage.channel.sendTyping();
+        await page.waitForSelector('b');
+        const elementHandle = await page.$('body');
+        const jsHandle = await elementHandle.getProperty('innerHTML');
+        const val = parseString(await jsHandle.jsonValue());
+        // console.log(val);
+        sendMessage(val, userMessage);
 
-    // return page;
+        // return page;
+    } catch (e) {
+        console.log(`Error in getRequest function: ${e}`);
+    }
 }
 
 const main = async (userMessage) => {
-    // let page = await initialize();
-    // while (true) {
-    // console.log("Making POST Request... ")
-    await post(userMessage);
-    // console.log("Making GET Request... ")
-    await getRequest(userMessage);
-    // }
-    // return page;
+    try {
+        // let page = await initialize();
+        // while (true) {
+        // console.log("Making POST Request... ")
+        await post(userMessage);
+        // console.log("Making GET Request... ")
+        await getRequest(userMessage);
+        // }
+        // return page;
+    } catch (e) {
+        console.log(`Error in main function: ${e}`);
+    }
 }
 
 console.log('Establishing connection to Discord')
