@@ -2,7 +2,8 @@
   "name": "yheetbot",
   "version": "1.0.0",
   "description": "",
-  "main": "discord-scrape.js",
+  "type": "module",
+  "main": "./services/v3/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,8 +13,10 @@
     "axios": "^0.26.1",
     "cheerio": "^1.0.0-rc.12",
     "cross-fetch": "^3.1.5",
-    "discord.js": "^13.6.0",
+    "discord.js": "^13.9.0",
+    "dotenv": "^16.0.1",
     "fetch": "^1.1.0",
+    "google-assistant": "^0.7.0",
     "node-fetch": "^3.2.3",
     "prompt-sync": "^4.2.0",
     "puppeteer": "^15.2.0",

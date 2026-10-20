@@ -1,2 +1,36 @@
 node_modules/
 yheetbot-chatbot-35b926c974f1.json
+
+# Archive preparation: secrets and generated output
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+*service*account*.json
+*firebase-adminsdk*.json
+credentials*.json
+secrets.*
+.npmrc
+.netrc
+build/
+dist/
+out/
+coverage/
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+
+# OAuth client credentials stay local.
+/services/v2/secret.json
+
+# Local credentials and authentication/debug logs.
+secret.json
+secrets.json
+*.credentials.json
+.pypirc
+.netrc
